@@ -12,8 +12,15 @@
 #define APPNAME "Playground"
 #define BUFFER_SIZE (512 * 1024)
 
+#define DEBUG 0
+
+#if DEBUG
 #define ALOGV(x) __android_log_print(ANDROID_LOG_VERBOSE, APPNAME, x);
 #define _ALOGV(x,y) __android_log_print(ANDROID_LOG_VERBOSE, APPNAME, x, y);
+#else
+#define ALOGV(x)
+#define _ALOGV(x,y)
+#endif
 
 // always use the NativeWrapper: Java_alex_playground_utils_NativeWrapper
 

@@ -32,6 +32,7 @@ import alex.playground.Logger;
 import alex.playground.R;
 import alex.playground.utils.CustomTimingLogger;
 import alex.playground.utils.NativeWrapper;
+import alex.playground.utils.Utils;
 import alex.playground.utils.cmdprocessor.CMDProcessor;
 
 public class ShellVsNativeFragment extends Fragment implements View.OnClickListener {
@@ -93,6 +94,7 @@ public class ShellVsNativeFragment extends Fragment implements View.OnClickListe
             mLogger.reset(TAG, "NativeVsShellTest");
             startShellTest();
             startNativeTest();
+            startJavaTest();
             sb.append(mLogger.dumpToString()).append('\n');
             return sb.toString();
         }
@@ -103,6 +105,13 @@ public class ShellVsNativeFragment extends Fragment implements View.OnClickListe
 
             setText(result);
         }
+    }
+
+    private void startJavaTest() {
+        Logger.v(this, "startJavaTest: %s", Utils.readFile(TEST_FILE_PATH));
+
+        // log time
+        mLogger.addSplit("startJavaTest");
     }
 
     private void startNativeTest() {
