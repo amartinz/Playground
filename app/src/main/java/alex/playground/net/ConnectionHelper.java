@@ -23,7 +23,10 @@ import android.net.wifi.WifiManager;
 import android.support.annotation.Nullable;
 
 import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.SocketException;
 
 import alex.playground.Logger;
 
@@ -60,6 +63,24 @@ public class ConnectionHelper {
             quads[k] = (byte) ((broadcast >> k * 8) & 0xFF);
         }
         return InetAddress.getByAddress(quads);
+    }
+
+    public static DatagramPacket discoverDevices(final int srcPort, final int destPort,
+            final InetAddress address, final String data) throws IOException {
+        if (address == null) {
+            Logger.e(TAG, "discoverDevices: address is null!");
+            return null;
+        }
+        final DatagramSocket socket = new DatagramSocket(srcPort);
+        socket.setBroadcast(true);
+        final DatagramPacket sendPacket = new DatagramPacket(data.getBytes(), data.length(),
+                address, destPort);
+        socket.send(sendPacket);
+
+        final byte[] buf = new byte[1024];
+        final DatagramPacket packet = new DatagramPacket(buf, buf.length);
+        socket.receive(packet);
+        return packet;
     }
 
 }

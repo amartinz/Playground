@@ -29,6 +29,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.io.IOException;
+import java.net.DatagramPacket;
 import java.net.InetAddress;
 
 import alex.playground.Logger;
@@ -93,6 +94,7 @@ public class NetworkingFragment extends Fragment implements View.OnClickListener
             sb.append(String.format("Starting at: %s", today.format("%k:%M:%S"))).append("\n\n");
             mLogger.reset(TAG, "NetworkingTest");
 
+            // get broadcast address
             InetAddress address = null;
             try {
                 address = ConnectionHelper.getBroadcastAddress(getActivity());
@@ -100,12 +102,28 @@ public class NetworkingFragment extends Fragment implements View.OnClickListener
                 Logger.e(TAG, "Could not get broadcast address!", ioe);
             }
             if (address == null) {
-                sb.append("address is null!");
+                sb.append("address is null!\n");
             } else {
-                sb.append(String.format("broadcast address: %s", address.toString()));
+                sb.append(String.format("broadcast address: %s\n", address.toString()));
             }
+            mLogger.addSplit("getBroadcastAddress");
 
-            sb.append(mLogger.dumpToString()).append('\n');
+            // try to discover devices
+            DatagramPacket packet = null;
+            try {
+                packet = ConnectionHelper.discoverDevices(36641, 1337, address, "Heyho");
+            } catch (IOException ioe) {
+                Logger.e(TAG, "Error when trying to discover devices!", ioe);
+            }
+            if (packet == null) {
+                sb.append("packet is null!\n");
+            } else {
+                sb.append(String.format("%s:%s --> %s\n", packet.getAddress(), packet.getPort(),
+                        new String(packet.getData())));
+            }
+            mLogger.addSplit("discoverDevices");
+
+            sb.append('\n').append(mLogger.dumpToString()).append('\n');
             return sb.toString();
         }
 
