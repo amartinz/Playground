@@ -29,7 +29,7 @@ import alex.playground.R;
 
 public class MenuFragment extends ListFragment {
 
-    private static final int[] MENU_ENTRIES = { R.string.native_vs_shell };
+    private static final int[] MENU_ENTRIES = { R.string.native_vs_shell, R.string.networking };
 
     @Override public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -48,6 +48,9 @@ public class MenuFragment extends ListFragment {
         switch (position) {
             case 0: // native_vs_shell
                 loadFragment(new ShellVsNativeFragment());
+                break;
+            case 1: // networking
+                loadFragment(new NetworkingFragment());
                 break;
         }
     }
