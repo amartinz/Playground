@@ -80,6 +80,7 @@ public class ConnectionHelper {
         final byte[] buf = new byte[1024];
         final DatagramPacket packet = new DatagramPacket(buf, buf.length);
         socket.receive(packet);
+        socket.close();
         return packet;
     }
 
