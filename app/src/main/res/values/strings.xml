@@ -21,6 +21,7 @@
     <string name="app_name">Playground</string>
     <string name="native_vs_shell">Native VS Shell</string>
     <string name="networking">Networking</string>
+    <string name="sensors">Sensors</string>
 
     <string name="start">Start</string>
 
