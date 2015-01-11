@@ -20,8 +20,11 @@ package alex.playground;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.view.Display;
 
 import alex.playground.fragments.MenuFragment;
+import alex.playground.utils.CustomTimingLogger;
 import alex.playground.utils.NativeWrapper;
 
 
@@ -37,6 +40,20 @@ public class MainActivity extends Activity {
 
         // Test jni
         Logger.v(this, "jniTest: %s", NativeWrapper.stringFromJNI());
+
+        // Setup timed logger for initial tests
+        final CustomTimingLogger timingLogger = new CustomTimingLogger("MainActivity", "Main");
+
+        // Display metrics test
+        final Display display = getWindowManager().getDefaultDisplay();
+        timingLogger.addSplit("getting display");
+
+        final DisplayMetrics displayMetrics = new DisplayMetrics();
+        display.getMetrics(displayMetrics);
+        timingLogger.addSplit("getting metrics");
+
+        final int displayDpi = displayMetrics.densityDpi;
+        Logger.v(this, "displayDpi -> %s\n%s", displayDpi, timingLogger.dumpToString());
 
         getFragmentManager()
                 .beginTransaction()
