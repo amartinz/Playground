@@ -18,6 +18,8 @@
 
 package alex.playground.utils;
 
+import android.util.Log;
+
 /**
  * A wrapper class for communicating with our shared library
  */
@@ -31,7 +33,13 @@ public class NativeWrapper {
     /**
      * @return Hello from C++ JNI !
      */
-    public static native String stringFromJNI();
+    public native String stringFromJNI();
 
     public static native String readMemoryInfo(final String path);
+
+    public String stringFromJava(String s) {
+        Log.e("NativeWrapper", "Called this function from C code!");
+        Log.e("NativeWrapper", "Got that from C code -> " + s);
+        return "Returning this to the C code";
+    }
 }

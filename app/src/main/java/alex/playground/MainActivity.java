@@ -39,7 +39,7 @@ public class MainActivity extends Activity {
         Logger.setEnabled(true);
 
         // Test jni
-        Logger.v(this, "jniTest: %s", NativeWrapper.stringFromJNI());
+        Logger.v(this, "jniTest: %s", new NativeWrapper().stringFromJNI());
 
         // Setup timed logger for initial tests
         final CustomTimingLogger timingLogger = new CustomTimingLogger("MainActivity", "Main");

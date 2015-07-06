@@ -29,7 +29,7 @@ import alex.playground.R;
 
 public class MenuFragment extends ListFragment {
 
-    private static final int[] MENU_ENTRIES = { R.string.native_vs_shell, R.string.networking, R.string.sensors };
+    private static final int[] MENU_ENTRIES = { R.string.native_vs_shell, R.string.networking, R.string.sensors, R.string.camera };
 
     @Override public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -54,6 +54,9 @@ public class MenuFragment extends ListFragment {
                 break;
             case 2: // sensors
                 loadFragment(new SensorFragment());
+                break;
+            case 3: // camera
+                loadFragment(new CameraFragment());
                 break;
         }
     }

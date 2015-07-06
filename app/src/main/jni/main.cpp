@@ -12,7 +12,7 @@
 #define APPNAME "Playground"
 #define BUFFER_SIZE (512 * 1024)
 
-#define DEBUG 0
+#define DEBUG 1
 
 #if DEBUG
 #define ALOGV(x) __android_log_print(ANDROID_LOG_VERBOSE, APPNAME, x);
@@ -28,6 +28,25 @@ extern "C" {
     JNIEXPORT jstring JNICALL
     Java_alex_playground_utils_NativeWrapper_stringFromJNI(JNIEnv *env, jobject thiz)
     {
+        // defining the string we send to the java code as parameter
+        jstring jstr = env->NewStringUTF("This comes from jni.");
+
+        // finding the class where our method lives
+        jclass clazz = env->FindClass("alex/playground/utils/NativeWrapper");
+
+        // getting the method id, it takes a string as parameter "(Ljava....)" and returns a string "(...)Ljava..."
+        jmethodID messageMe = env->GetMethodID(clazz, "stringFromJava", "(Ljava/lang/String;)Ljava/lang/String;");
+
+        // call the method and as it returns a string, store the returned string in a jstring called "result"
+        jstring result = (jstring) env->CallObjectMethod(thiz, messageMe, jstr);
+
+        // getting the string so we can use it in C
+        const char* stringFromJava = env->GetStringUTFChars(result, NULL);
+
+        // LOG IT!
+        _ALOGV("%s\n", stringFromJava);
+
+        // returning a new string
         return env->NewStringUTF("Hello from C++ JNI!");
     }
 
